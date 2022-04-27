@@ -61,4 +61,17 @@ class MessagesController extends AbstractController
     {
         return $this->render('messages/received.html.twig');
     }
+
+    /**
+     * @Route("/read/{id}", name="read")
+     */
+    public function read(Messages $message, ManagerRegistry $managerRegi): Response
+    {
+        $message->setIsRead(true);
+
+        $em = $managerRegi->getManager();
+        $em->persist($message);
+        $em->flush();
+        return $this->render('messages/read.html.twig', compact("message"));
+    }
 }

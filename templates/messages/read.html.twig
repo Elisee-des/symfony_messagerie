@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}la messagerie
+{% endblock %}
+
+{% block body %}
+
+	<section class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>Messagerie</h1>
+				<h2>{{message.title}}</h2>
+				<p>Message de
+					{{ message.sender.email }}</p>
+				<p>Envoyer le
+					{{ message.createdAt|date("m/d/Y") }}</p>
+				<div>
+					{{ message.message }}
+				</div>
+				<div>
+					<div>
+						<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+							Voire mes dossiers
+						</a>
+						<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+							Repondre
+						</a>
+						<a class="btn btn-primary" data-bs-toggle="offcanvas" href="{{ path("messages")}}" role="button" aria-controls="offcanvasExample">
+							Retour
+						</a>
+					</div>
+				</div>
+				<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+					<div class="offcanvas-header">
+						<h2 class="offcanvas-title" id="offcanvasExampleLabel">Mes dossiers</h2>
+						<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					<div class="offcanvas-body">
+						<div class="list-group">
+							<a href="{{ path("messages") }}" class="list-group-item list-group-item-action ">Accueil</a>
+						</div>
+						<div class="list-group">
+							<a href="{{ path("received") }}" class="list-group-item list-group-item-action active">Boite de reception</a>
+						</div>
+						<div class="list-group">
+							<a href="{{ path("send") }}" class="list-group-item list-group-item-action ">Elements envoyé</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		{% endblock %}
