@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Messages;
 use App\Form\MessagesType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,20 +25,40 @@ class MessagesController extends AbstractController
     /**
      * @Route("/send", name="send")
      */
-    public function send(Request $request): Response
+    public function send(Request $request, ManagerRegistry $managerRegi): Response
     {
         $message = new Messages();
 
         $form = $this->createForm(MessagesType::class, $message);
 
-        // $form->handleRequest($request);
-        
-        // if ($form->isSubmitted() && $form->isValid()) { 
-            
-        // }
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $message->setSender($this->getUser());
+
+            $em = $managerRegi->getManager();
+            $em->persist($message);
+            $em->flush();
+
+            $this->addFlash(
+                'message',
+                'Message envoyez avec success'
+            );
+
+            return $this->redirectToRoute('messages');
+        }
 
         return $this->render('messages/send.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/received", name="received")
+     */
+    public function received(): Response
+    {
+        return $this->render('messages/received.html.twig');
     }
 }
