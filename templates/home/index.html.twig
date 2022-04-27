@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!
+{% endblock %}
+
+{% block body %}
+
+	<div class="example-wrapper">
+		<h1>Bienvenu sur le petit projet de messagerie interne</h1>
+		<p>
+			<a href="{{ path("app_register") }}">Veuillez Vous inscrire d'abord</a>
+		</p>
+		<p>
+			<a href="{{ path("app_login") }}">J'ai deja un compte</a>
+		</p>
+	</div>
+{% endblock %}
